@@ -1,4 +1,5 @@
 'use client';
+
 import Image from "next/image";
 import React from "react";
 
@@ -9,8 +10,11 @@ export default function WildBonkSite() {
         <Image
           src="/images/wildbonk-logo.png"
           alt="Wild Bonk Logo"
-          className="w-40 h-40 mx-auto rounded-full border-4 border-white mb-2"
+          width={160} // 40 × 4 = 160px
+          height={160}
+          className="mx-auto rounded-full border-4 border-white mb-2"
         />
+
         <h1 className="text-4xl font-bold">🐾 Wild Bonk (WBONK)</h1>
         <p className="mt-2 text-lg">Unleash the Chaos. Meme Hard. Bonk Wilder.</p>
       </header>
@@ -22,7 +26,7 @@ export default function WildBonkSite() {
           <h2 className="text-2xl font-bold mb-2 text-orange-500">What is Wild Bonk?</h2>
           <p>
             <strong>Wild Bonk (WBONK)</strong> is the feral cousin of BONK — more hype, more energy, and pure meme
-            chaos. <p>It&rsquo;s a token built for the bold, born from the meme revolution, and ready to take over the
+            chaos.It&rsquo;s a token built for the bold, born from the meme revolution, and ready to take over the
             crypto jungle. Community-powered. No rules. Just vibes.
           </p>
         </div>
