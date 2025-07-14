@@ -93,7 +93,7 @@ export default function WildBonkSite() {
         <div className="mt-3 flex items-center justify-center gap-4">
           {/* X / Twitter */}
           <a
-            href="https://x.com/your_username"
+            href="https://x.com/wildbonk"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-yellow-200 transition"
