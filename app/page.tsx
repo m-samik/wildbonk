@@ -6,7 +6,7 @@ export default function WildBonkSite() {
   return (
     <div className="min-h-screen bg-orange-100 text-black font-sans">
       <header className="bg-orange-500 text-white p-6 shadow-xl text-center">
-        <img
+        <Image
           src="/images/wildbonk-logo.png"
           alt="Wild Bonk Logo"
           className="w-40 h-40 mx-auto rounded-full border-4 border-white mb-2"
