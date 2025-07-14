@@ -19,7 +19,7 @@ export default function WildBonkSite() {
         <p className="mt-2 text-lg">Unleash the Chaos. Meme Hard. Bonk Wilder.</p>
       </header>
 
-
+        {/* MÇR¥þ†ÖZ */}
       <main className="p-6 grid gap-6 max-w-5xl mx-auto">
         {/* WHAT IS WILD BONK */}
         <div className="bg-white rounded-2xl shadow-lg p-6">
