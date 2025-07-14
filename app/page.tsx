@@ -22,7 +22,7 @@ export default function WildBonkSite() {
           <h2 className="text-2xl font-bold mb-2 text-orange-500">What is Wild Bonk?</h2>
           <p>
             <strong>Wild Bonk (WBONK)</strong> is the feral cousin of BONK — more hype, more energy, and pure meme
-            chaos. It's a token built for the bold, born from the meme revolution, and ready to take over the
+            chaos. <p>It&rsquo;s a token built for the bold, born from the meme revolution, and ready to take over the
             crypto jungle. Community-powered. No rules. Just vibes.
           </p>
         </div>
