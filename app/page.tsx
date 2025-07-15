@@ -115,7 +115,7 @@ export default function WildBonkLanding() {
         <motion.p className="text-lg mt-4 text-white/80 max-w-xl mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
           The wildest meme coin on Solana. No presale. No leash. Just vibes.
         </motion.p>
-        <div className="mt-4 text-white font-semibold text-md">Launch in: {countdown}</div>
+       {/* <div className="mt-4 text-white font-semibold text-md">Launch in: {countdown}</div> */} 
         <div className="mt-8 flex justify-center flex-wrap gap-4 z-10 relative">
           <Link href="#tokenomics">
             <motion.button whileHover={{ scale: 1.1 }} className="bg-orange-500 text-white px-6 py-3 rounded-full shadow">
