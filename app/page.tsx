@@ -1,129 +1,185 @@
-'use client';
+"use client";
 
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
-export default function WildBonkSite() {
+export default function WildBonkLanding() {
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState<string>("");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("walletAddress");
+    if (stored) setWalletAddress(stored);
+
+    const launchDate = new Date("2025-08-01T00:00:00").getTime();
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = launchDate - now;
+
+      if (distance < 0) {
+        clearInterval(timer);
+        setCountdown("Launched!");
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+const connectWallet = async () => {
+  try {
+    // Check for Solana (Phantom)
+    if (typeof window !== "undefined" && window.solana && window.solana.isPhantom) {
+      const res = await window.solana.connect();
+      const addr = res.publicKey.toString();
+      setWalletAddress(addr);
+      localStorage.setItem("walletAddress", addr);
+    }
+
+    // Else check for MetaMask (Ethereum)
+    else if (typeof window !== "undefined" && window.ethereum) {
+      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+      const addr = accounts[0];
+      setWalletAddress(addr);
+      localStorage.setItem("walletAddress", addr);
+    }
+
+    // None installed
+    else {
+      alert("No compatible wallet found. Please install Phantom or MetaMask.");
+    }
+  } catch (e: any) {
+    console.error("Wallet connection failed:", e.message || e);
+    alert("Failed to connect wallet. Check console for details.");
+  }
+};
+
+
   return (
-    <div className="min-h-screen bg-orange-100 text-black font-sans">
-      <header className="bg-orange-500 text-white p-6 shadow-xl text-center">
-        <Image
-          src="/images/wildbonk-logo.png"
-          alt="Wild Bonk Logo"
-          width={160} // 40 × 4 = 160px
-          height={160}
-          className="mx-auto rounded-full border-4 border-white mb-2"
-        />
+    <main className="min-h-screen bg-gradient-to-br from-orange-500 via-orange-300 to-yellow-200 text-[#1A1A1A] font-sans relative overflow-x-hidden">
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0.6 }}
+        animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
+        transition={{ duration: 5, repeat: Infinity }}
+        className="absolute top-[-80px] right-[-80px] w-[300px] h-[300px] bg-yellow-300 rounded-full blur-2xl"
+      />
 
-        <h1 className="text-4xl font-bold">🐾 Wild Bonk (WBONK)</h1>
-        <p className="mt-2 text-lg">Unleash the Chaos. Meme Hard. Bonk Wilder.</p>
-      </header>
+      {/* Floating Mascot Animation Top Left */}
+      <motion.div animate={{ y: [0, -50, 0] }} transition={{ duration: 2, repeat: Infinity }} className="absolute top-6 left-6 z-10">
+        <Image src="/images/wildbonk-mascot.png" alt="Mascot" width={300} height={300} />
+      </motion.div>
 
-        {/* MÇR¥þ†ÖZ */}
-      <main className="p-6 grid gap-6 max-w-5xl mx-auto">
-        {/* WHAT IS WILD BONK */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-2 text-orange-500">What is Wild Bonk?</h2>
-          <p>
-            <strong>Wild Bonk (WBONK)</strong> is the feral cousin of BONK — more hype, more energy, and pure meme
-            chaos.It&rsquo;s a token built for the bold, born from the meme revolution, and ready to take over the
-            crypto jungle. Community-powered. No rules. Just vibes.
-          </p>
-        </div>
+      {/* Floating Mascot Animation Bottom Right */}
+      <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 3, repeat: Infinity }} className="fixed bottom-8 right-6 z-10">
+        <Image src="/images/wildbonk-mascot.png" alt="Mascot" width={200} height={200} />
+      </motion.div>
 
-        {/* TOKENOMICS */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-2 text-orange-500">Tokenomics</h2>
-          <ul className="list-disc list-inside">
-            <li>🔥 Total Supply: 1,000,000,000 WBONK</li>
-            <li>💥 No Presale – 100% Fair Launch</li>
-            <li>🧠 Community-Driven Governance</li>
-            <li>🎁 10% Airdrops & Giveaways</li>
-          </ul>
-        </div>
-
-        {/* HOW TO BUY */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold mb-2 text-orange-500">How to Buy</h2>
-          <ol className="list-decimal list-inside">
-            <li>Connect your wallet (Phantom/Solana or MetaMask depending on chain).</li>
-            <li>Go to Raydium / Uniswap / PancakeSwap (as applicable).</li>
-            <li>Paste WBONK token address and swap your tokens.</li>
-            <li>Bonk wild. Meme harder. Repeat.</li>
-          </ol>
-        </div>
-
-        {/* JOIN COMMUNITY */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
-          <h2 className="text-2xl font-bold mb-2 text-orange-500">Join the Wild Pack</h2>
-          <p className="mb-4">
-            Follow us on Twitter, join the Telegram, and spread the wild meme energy. Together, we go wilder.
-          </p>
-          <button
-            className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-xl transition"
-            onClick={() => {
-              const bark = new Audio('/sounds/dogbarking.mp3'); // Path to your sound file
-              bark.play();
-              window.open('https://t.me/wildbonk', '_blank'); // Replace with your real link
-            }}
-            title="Join our wild community!"
+      <section className="text-center py-24 px-6 relative z-10">
+        <motion.div initial={{ scale: 0.5 }} animate={{ scale: 1 }} transition={{ type: "spring", duration: 1 }}>
+          <Image
+            src="/images/wildbonk-logo.png"
+            alt="Wild Bonk Logo"
+            width={130}
+            height={130}
+            className="mx-auto mb-6 rounded-full border-4 border-white shadow-xl"
+          />
+        </motion.div>
+        <motion.h1 className="text-7xl sm:text-8xl font-extrabold text-white drop-shadow-[0_5px_15px_rgba(255,165,0,0.9)] tracking-tight" initial={{ y: -50 }} animate={{ y: 0 }} transition={{ duration: 1 }}>
+          WILD BONK
+        </motion.h1>
+        <motion.p className="text-lg mt-4 text-white/80 max-w-xl mx-auto" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+          The wildest meme coin on Solana. No presale. No leash. Just vibes.
+        </motion.p>
+        <div className="mt-4 text-white font-semibold text-md">Launch in: {countdown}</div>
+        <div className="mt-8 flex justify-center flex-wrap gap-4 z-10 relative">
+          <Link href="#tokenomics">
+            <motion.button whileHover={{ scale: 1.1 }} className="bg-orange-500 text-white px-6 py-3 rounded-full shadow">
+              Tokenomics
+            </motion.button>
+          </Link>
+          <Link href="#game">
+            <motion.button whileHover={{ scale: 1.1 }} className="bg-orange-700 text-white px-6 py-3 rounded-full shadow">
+              Play a Game
+            </motion.button>
+          </Link>
+          <Link href="https://t.me/wildbonk" target="_blank">
+            <motion.button whileHover={{ scale: 1.1 }} className="bg-white text-orange-600 px-6 py-3 rounded-full font-bold shadow">
+              Join Community
+            </motion.button>
+          </Link>
+          <motion.button
+            onClick={connectWallet}
+            whileHover={{ scale: 1.1 }}
+            className="bg-black text-white px-6 py-3 rounded-full shadow font-semibold"
           >
-            Join Community
-          </button>
-
+            {walletAddress ? `Connected: ${walletAddress.slice(0, 4)}...${walletAddress.slice(-4)}` : "Connect Wallet"}
+          </motion.button>
         </div>
-      </main>
+       
+      </section>
 
-      <footer className="bg-orange-500 text-white text-center p-4 mt-6">
-        <p>&copy; {new Date().getFullYear()} Wild Bonk | Unleash the Chaos. Meme Hard. Bonk Wilder.</p>
-
-        {/* Copyable Token Address */}
-        <div
-          className="mt-2 flex items-center justify-center gap-2 text-sm text-white cursor-pointer hover:text-yellow-200 transition"
-          onClick={() => {
-            const bark = new Audio('/sounds/dogbarking.mp3'); // Path to your sound file
-            bark.play();
-            navigator.clipboard.writeText('COMING SOON');
-          }}
-          title="Click to copy token address"
-        >
-          <span>CA: COMING SOON</span>
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16h8m-4-4h4m-6 4v-4m-2 0H4v6a2 2 0 002 2h6v-2H6v-6zM16 4h2a2 2 0 012 2v12a2 2 0 01-2 2h-2M8 4h8v4H8z" />
-          </svg>
+      <section id="tokenomics" className="bg-white py-24 px-6 text-center z-10 relative">
+        <h2 className="text-5xl font-bold mb-12 text-orange-600">Tokenomics</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          {["🚀 1B Supply", "🧑‍🤝‍🧑 100% Fair Launch", "🔥 Burn Mechanism", "💰 Liquidity Locked"].map((item, i) => {
+            const [emoji, ...titleWords] = item.split(" ");
+            return (
+              <motion.div key={i} whileHover={{ scale: 1.05 }} className="bg-orange-100 p-6 rounded-xl shadow-md hover:shadow-lg">
+                <div className="text-4xl mb-4 animate-pulse">{emoji}</div>
+                <h3 className="text-xl font-semibold text-orange-600">{titleWords.join(" ")}</h3>
+                <p className="text-sm mt-2 text-gray-700">
+                  {i === 0 && "Total fixed supply of 1,000,000,000 $WBONK tokens."}
+                  {i === 1 && "No presale, no team tokens, just pure community."}
+                  {i === 2 && "Tokens burned to reward holders and reduce supply."}
+                  {i === 3 && "Liquidity locked forever, no rug pulls here."}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
+      </section>
 
-        {/* Social Links */}
-        <div className="mt-3 flex items-center justify-center gap-4">
-          {/* X / Twitter */}
-          <a
-            href="https://x.com/wildbonk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-yellow-200 transition"
-            title="Follow us on X"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19.6 3H4.4A1.4 1.4 0 003 4.4v15.2A1.4 1.4 0 004.4 21h15.2a1.4 1.4 0 001.4-1.4V4.4A1.4 1.4 0 0019.6 3zM16.95 16h-1.33l-2.24-3.02L10.9 16H9.44l3.09-4.14L9.62 8h1.38l2.06 2.77L15.15 8h1.34l-3.02 4.04L16.95 16z" />
-            </svg>
-          </a>
+      <section id="game" className="bg-orange-50 py-24 px-6 text-center z-10 relative">
+        <h2 className="text-4xl font-bold mb-6 text-orange-700">Mini Game (Coming Soon)</h2>
+        <p className="max-w-xl mx-auto text-gray-700">We're building something fun and wild. A play-to-earn mini game that'll blow your mind. Stay tuned!</p>
+      </section>
 
-          {/* Telegram */}
-          <a
-            href="https://t.me/wildbonk"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-yellow-200 transition"
-            title="Join us on Telegram"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.373 0 0 5.373 0 12a12 12 0 0012 12 12 12 0 0012-12C24 5.373 18.627 0 12 0zm5.308 7.801l-1.659 7.82c-.126.563-.456.7-.923.435l-2.55-1.88-1.23 1.185c-.136.136-.25.25-.511.25l.184-2.607 4.756-4.295c.207-.184-.045-.287-.322-.104l-5.884 3.706-2.53-.79c-.549-.172-.561-.549.114-.812l9.898-3.818c.46-.172.86.104.714.794z" />
-            </svg>
-          </a>
+      <footer className="bg-gradient-to-tr from-orange-700 via-orange-600 to-orange-500 text-white px-6 py-16">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-10">
+          <div>
+            <h3 className="text-lg font-bold mb-3">Wild Bonk</h3>
+            <ul className="space-y-2">
+              <li><Link href="#">Home</Link></li>
+              <li><Link href="#tokenomics">Tokenomics</Link></li>
+              <li><Link href="#game">Play</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold mb-3">Community</h3>
+            <ul className="space-y-2">
+              <li><Link href="https://t.me/wildbonk" target="_blank">Telegram</Link></li>
+              <li><Link href="https://x.com/wildbonk" target="_blank">X</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-bold mb-3">Info</h3>
+            <ul className="space-y-2">
+              <li>Docs</li>
+              <li>Whitepaper</li>
+              <li>CA: Coming Soon 📜</li>
+            </ul>
+          </div>
         </div>
+        <div className="mt-10 text-sm text-center">&copy; {new Date().getFullYear()} Wild Bonk. All rights reserved.</div>
       </footer>
-
-
-    </div>
+    </main>
   );
 }
