@@ -22,7 +22,7 @@ declare global {
 
 export default function WildBonkLanding() {
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [countdown, setCountdown] = useState<string>("");
+  //const [countdown, setCountdown] = useState<string>("");
   const router = useRouter();
 
   useEffect(() => {
@@ -36,15 +36,15 @@ export default function WildBonkLanding() {
 
       if (distance < 0) {
         clearInterval(timer);
-        setCountdown("Launched!");
+        //setCountdown("Launched!");
         return;
       }
 
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+      //const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      //const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      //const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      //const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      //setCountdown(`${days}d ${hours}h ${minutes}m ${seconds}s`);
     }, 1000);
 
     return () => clearInterval(timer);
