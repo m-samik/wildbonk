@@ -65,11 +65,13 @@ export default function WildBonkLanding() {
       } else {
         alert("No compatible wallet found. Please install Phantom or MetaMask.");
       }
-    } catch (e: any) {
-      console.error("Wallet connection failed:", e.message || e);
+    } catch (e: unknown) {
+      const err = e as Error;
+      console.error("Wallet connection failed:", err.message || err);
       alert("Failed to connect wallet. Check console for details.");
     }
   };
+
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-orange-500 via-orange-300 to-yellow-200 text-[#1A1A1A] font-sans relative overflow-x-hidden">
