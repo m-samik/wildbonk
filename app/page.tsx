@@ -29,7 +29,7 @@ export default function WildBonkLanding() {
     const stored = localStorage.getItem("walletAddress");
     if (stored) setWalletAddress(stored);
 
-    const launchDate = new Date("2025-08-01T00:00:00").getTime();
+    const launchDate = new Date("2025-07-17T00:00:00").getTime();
     const timer = setInterval(() => {
       const now = new Date().getTime();
       const distance = launchDate - now;
